@@ -42,6 +42,8 @@ de los procesadores.
 	12. Cada practica cuenta como salir dos veces en clase.
 */
 
+void printTime(float);
+
 int main(int argc, char* argv[]) {
 	clock_t t1, t2;
 	TestData data = multiFibonacci;
@@ -53,21 +55,25 @@ int main(int argc, char* argv[]) {
 	t2 = clock();
 
 	cout << program.toString() << endl << endl;
-	float diff((float)t2 - (float)t1);
-	cout << "Calculation Time: ";
-	if (diff < 1000) {
-		cout << diff << "ms" << endl;
-	} else {
-		diff /= 1000;
-		if (diff < 60) {
-			cout << diff << "s" << endl;
-		} else {
-			int min = (int)diff / 60;
-			int seg = (int)diff % 60;
-			cout << min << "m " << seg << "s" << endl;
-		}
-	}
+	printTime(t2 - t1);
 
 	cin.get();
 	return 0;
+}
+
+
+void printTime(float milis) {
+	cout << "Calculation Time: ";
+	if (milis < 1000) {
+		cout << milis << "ms" << endl;
+	} else {
+		float segf = milis / 1000;
+		if (segf < 60) {
+			cout << segf << "s" << endl;
+		} else {
+			int min = (int)segf / 60;
+			int seg = (int)segf % 60;
+			cout << min << "m " << seg << "s" << endl;
+		}
+	}
 }

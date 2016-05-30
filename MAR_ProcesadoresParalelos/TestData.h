@@ -74,8 +74,8 @@ TestData fibonacci = {
 	fibonacciGenerate(50)
 };
 TestData multiFibonacci = {
-	20,
-	multiFibonacciGenerate(13, 20)
+	10,
+	multiFibonacciGenerate(13, 21)
 };
 
 

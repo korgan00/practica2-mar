@@ -15,12 +15,17 @@ void ParallelProcessors::FindBestDistribution() {
 	for (Work &w : _workList) {
 		currentWorkList.push_back(w);
 	}
-
+	_visitedNodes = 0;
 	//std::cout << "Preparado" << std::endl;
 	_FindBestDistribution(currentWorkList, 0);
 }
 
 void ParallelProcessors::_FindBestDistribution(std::vector<Work> currentWorkList, int processorsUsed) {
+	_visitedNodes++;
+	if ((_visitedNodes % 10000) == 0) {
+		std::cout << "Current Visited Nodes: " << _visitedNodes / 1000000.0f << "M" << std::endl;
+	}
+
 	if (currentWorkList.size() == 0) {
 		_EvaluateCurrentSolution();
 		return;
@@ -29,7 +34,6 @@ void ParallelProcessors::_FindBestDistribution(std::vector<Work> currentWorkList
 		//std::cout << "WRONG BRANCH" << std::endl;
 		return; // EvaluarCotas
 	}
-
 
 	// La cota inferior comprueba 
 	Work w = currentWorkList.back();
@@ -84,11 +88,7 @@ bool ParallelProcessors::_IsBadBranch(std::vector<Work> currentWorkList) {
 	}
 	//std::cout << "Optimist: " << optimistBound << " not bound || ";
 
-	double pesimistBound = _PesimistBound(currentWorkList);
-	if (_bestPesimist > pesimistBound) {
-		_bestPesimist = pesimistBound;
-		//std::cout << "NEW BEST PESIMIST TIME: " << _bestPesimist << std::endl;
-	}
+	_bestPesimist = fmin(_PesimistBound(currentWorkList), _bestPesimist);
 
 	if (_bestPesimist < optimistBound) {
 		//std::cout << " PESIMIST BOUND!! || ";
@@ -98,10 +98,19 @@ bool ParallelProcessors::_IsBadBranch(std::vector<Work> currentWorkList) {
 }
 #ifdef BOUNDS_A 
 double ParallelProcessors::_OptimistBound(std::vector<Work> currentWorkList) {
-	return FLT_MAX;
+	return _CurrentTime();
 }
 double ParallelProcessors::_PesimistBound(std::vector<Work> currentWorkList) {
-	return FLT_MAX;
+	double lessTime = FLT_MAX;
+	for (Processor &p : _processorList) {
+		if (p.totalTime() < lessTime) {
+			lessTime = p.totalTime();
+		}
+	}
+	for (Work &w : currentWorkList) {
+		lessTime += w;
+	}
+	return lessTime;
 }
 #else
 double ParallelProcessors::_OptimistBound(std::vector<Work> currentWorkList) {
@@ -178,7 +187,7 @@ double ParallelProcessors::_PesimistBound(std::vector<Work> currentWorkList) {
 std::string ParallelProcessors::toString() {
 	int i = 0;
 	std::stringstream ss;
-	ss << "\tMaxTime: " << _bestDistributionTime << std::endl;
+	ss << "\tMaxTime: " << _bestDistributionTime << " || Visited Nodes: " << _visitedNodes << std::endl;
 	for (Processor &p : _bestDistribution) {
 		ss << "\t- Processor " << i++ << ": " << p.toString() << std::endl;
 	}

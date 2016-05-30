@@ -15,6 +15,7 @@ private:
 	std::vector<Processor> _bestDistribution;
 	double _bestDistributionTime;
 	double _bestPesimist;
+	long long unsigned int _visitedNodes;
 	std::vector<Work> _workList;
 
 	void _FindBestDistribution(std::vector<Work> currentWorkList, int processorsUsed);
