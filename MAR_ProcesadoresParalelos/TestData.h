@@ -4,12 +4,13 @@
 #ifndef TEST_DATA
 #define TEST_DATA
 
+// Estructura para alimentar la ejecucion.
 typedef struct {
 	int processorCount;
 	std::vector<Work> workList;
 } TestData;
 
-
+// Genera un array con los amount + 2 numeros de fibonacci
 std::vector<Work> fibonacciGenerate(int amount) {
 	std::vector<Work> fibo;
 	if (amount == 0) return fibo;
@@ -23,6 +24,7 @@ std::vector<Work> fibonacciGenerate(int amount) {
 
 	return fibo;
 }
+// Genera un array con los "amount + 2" numeros de fibonacci "times" veces
 std::vector<Work> multiFibonacciGenerate(int times, int amount) {
 	std::vector<Work> fibo;
 
@@ -33,6 +35,8 @@ std::vector<Work> multiFibonacciGenerate(int times, int amount) {
 
 	return fibo;
 }
+// Genera un array juntando series de fibonacci de una longitud progresiva
+// empezando en from +2 y terminando en to +2
 std::vector<Work> progressiveFibonacciGenerate(int from, int to) {
 	std::vector<Work> fibo;
 
@@ -56,12 +60,12 @@ TestData trivial2 = {
 
 TestData manyProcessors = {
 	6,
-	std::vector<Work>(1200, 1.0f)
+	std::vector<Work>(123, 1.0f)
 };
 
 TestData many = {
 	15,
-	std::vector<Work>(1500, 1.0f)
+	std::vector<Work>(450, 1.0f)
 };
 
 TestData manyMuch = {
@@ -75,7 +79,22 @@ TestData fibonacci = {
 };
 TestData multiFibonacci = {
 	10,
-	multiFibonacciGenerate(13, 21)
+	multiFibonacciGenerate(3, 11)
+};
+
+
+
+TestData PracticeData1 = {
+	6,
+	std::vector<Work>(11, 1.0f)
+};
+TestData PracticeData2 = {
+	4,
+	progressiveFibonacciGenerate(3, 5)
+};
+TestData PracticeData3 = {
+	3,
+	multiFibonacciGenerate(3, 2)
 };
 
 

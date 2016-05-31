@@ -113,10 +113,12 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParallelProcessors.cpp" />
     <ClCompile Include="Processor.cpp" />
+    <ClCompile Include="ProcessorDistributor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ParallelProcessors.h" />
     <ClInclude Include="Processor.h" />
+    <ClInclude Include="ProcessorDistributor.h" />
     <ClInclude Include="TestData.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

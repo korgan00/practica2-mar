@@ -48,7 +48,7 @@ void ParallelProcessors::_FindBestDistribution(std::vector<Work> currentWorkList
 		//std::cout << "Processor: " << i << " - Add: " << w << " || Total: " << p.totalTime() << std::endl;
 		_FindBestDistribution(currentWorkList, std::max(processorsUsed, i));
 		// Restore node
-		p.RemoveWork();
+		p.RemoveWork(w);
 		//std::cout << "Processor: " << i << " - Rem: " << w << " || Total: " << p.totalTime() << std::endl;
 		i++;
 	}
@@ -107,9 +107,8 @@ double ParallelProcessors::_PesimistBound(std::vector<Work> currentWorkList) {
 			lessTime = p.totalTime();
 		}
 	}
-	for (Work &w : currentWorkList) {
-		lessTime += w;
-	}
+
+	lessTime += std::accumulate(currentWorkList.begin(), currentWorkList.end(), 0);
 	return lessTime;
 }
 #else

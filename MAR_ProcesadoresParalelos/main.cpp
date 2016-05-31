@@ -1,7 +1,7 @@
 ﻿#include <iostream>
 #include <vector>
 #include <time.h>
-#include "ParallelProcessors.h"
+#include "ProcessorDistributor.h"
 #include "Processor.h"
 #include "TestData.h"
 using namespace std;
@@ -42,38 +42,18 @@ de los procesadores.
 	12. Cada practica cuenta como salir dos veces en clase.
 */
 
-void printTime(float);
 
 int main(int argc, char* argv[]) {
-	clock_t t1, t2;
-	TestData data = multiFibonacci;
+	// Datos que se van a utilizar durante la ejecución
+	TestData data = PracticeData3;
 
-	ParallelProcessors program(data.processorCount, data.workList);
+	ProcessorDistributor program(data.processorCount, data.workList);
+	//ParallelProcessors program(data.processorCount, data.workList);
 
-	t1 = clock(); 
 	program.FindBestDistribution();
-	t2 = clock();
 
-	cout << program.toString() << endl << endl;
-	printTime(t2 - t1);
+	cout << program.ToString() << endl << endl;
 
 	cin.get();
 	return 0;
-}
-
-
-void printTime(float milis) {
-	cout << "Calculation Time: ";
-	if (milis < 1000) {
-		cout << milis << "ms" << endl;
-	} else {
-		float segf = milis / 1000;
-		if (segf < 60) {
-			cout << segf << "s" << endl;
-		} else {
-			int min = (int)segf / 60;
-			int seg = (int)segf % 60;
-			cout << min << "m " << seg << "s" << endl;
-		}
-	}
 }

@@ -4,6 +4,7 @@
 #include <sstream>
 #include <math.h>
 #include <algorithm>
+#include <numeric>
 #include "Processor.h"
 
 #ifndef PARALLEL_PROCESSORS
